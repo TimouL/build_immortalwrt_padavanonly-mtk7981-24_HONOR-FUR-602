@@ -4,6 +4,31 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+      device:
+        description: 'Target device'
+        required: true
+        default: 'honor_fur-602'
+        type: choice
+        options:
+          - honor_fur-602
+          - abt_asr3000
+          - cetron_ct3003
+          - cmcc_a10
+          - cmcc_rax3000m-emmc-usboffload
+          - cmcc_rax3000m-usboffload
+          - h3c_nx30pro
+          - imou_lc-hx3001
+          - jcg_q30
+          - konka_komi-a31
+          - livinet_zr-3020
+          - mt7981-360-t7-108M
+          - mt7981-clt-r30b1
+          - mt7981-clt-r30b1-112M
+          - xiaomi_mi-router-ax3000t
+          - xiaomi_mi-router-ax3000t-stock
+          - xiaomi_mi-router-wr30u-112m
+          - xiaomi_mi-router-wr30u-stock
+          - ALL
       clean:
          description: 'clean ccache'
          default: 'false'
@@ -19,6 +44,7 @@ env:
   DIY_P1_SH: ./doc/diy/diy-360T7-hanwckf-1.sh
   DIY_P2_SH: ./doc/diy/diy-360T7-padavanonly-2.sh
   TZ: Asia/Shanghai
+  DEVICE: ${{ github.event.inputs.device || 'honor_fur-602' }}
   
 jobs:
   build:
@@ -77,6 +103,12 @@ jobs:
          chmod +x $DIY_P2_SH
          cd openwrt
          $GITHUB_WORKSPACE/$DIY_P2_SH
+         # Filter device if not ALL
+         if [ "$DEVICE" != "ALL" ]; then
+           sed -i '/CONFIG_TARGET_DEVICE_mediatek_mt7981_DEVICE_/d' .config
+           echo "CONFIG_TARGET_DEVICE_mediatek_mt7981_DEVICE_${DEVICE}=y" >> .config
+           echo "CONFIG_TARGET_DEVICE_PACKAGES_mediatek_mt7981_DEVICE_${DEVICE}=\"\"" >> .config
+         fi
         
     - name: Download package
       id: package
@@ -93,8 +125,8 @@ jobs:
          cd openwrt
          echo -e "$(nproc) thread compile"
          make -j$(nproc) || make -j1 V=s
-         echo "release_tag=360T7-padavanonly-OpenWrt-mini-$(date +%Y.%m.%d)" >> $GITHUB_ENV
-         echo "release_name=360T7-padavanonly-OpenWrt-mini" >> $GITHUB_ENV
+         echo "release_tag=${DEVICE}-$(date +%Y.%m.%d)" >> $GITHUB_ENV
+         echo "release_name=${DEVICE}-OpenWrt" >> $GITHUB_ENV
          echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Check space usage
