@@ -103,11 +103,10 @@ jobs:
          chmod +x $DIY_P2_SH
          cd openwrt
          $GITHUB_WORKSPACE/$DIY_P2_SH
-         # Filter device if not ALL
          if [ "$DEVICE" != "ALL" ]; then
-           sed -i '/CONFIG_TARGET_DEVICE_mediatek_mt7981_DEVICE_/d' .config
+           sed -i '/^CONFIG_TARGET_DEVICE_mediatek_mt7981_DEVICE_/d' .config
+           sed -i '/^CONFIG_TARGET_DEVICE_PACKAGES_mediatek_mt7981_DEVICE_/d' .config
            echo "CONFIG_TARGET_DEVICE_mediatek_mt7981_DEVICE_${DEVICE}=y" >> .config
-           echo "CONFIG_TARGET_DEVICE_PACKAGES_mediatek_mt7981_DEVICE_${DEVICE}=\"\"" >> .config
          fi
         
     - name: Download package
@@ -125,7 +124,7 @@ jobs:
          cd openwrt
          echo -e "$(nproc) thread compile"
          make -j$(nproc) || make -j1 V=s
-         echo "release_tag=${DEVICE}-$(date +%Y.%m.%d)" >> $GITHUB_ENV
+         echo "release_tag=${DEVICE}-$(date +%Y.%m.%d)-${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
          echo "release_name=${DEVICE}-OpenWrt" >> $GITHUB_ENV
          echo "status=success" >> $GITHUB_OUTPUT
 
