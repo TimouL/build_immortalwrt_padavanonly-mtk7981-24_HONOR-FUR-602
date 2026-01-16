@@ -30,3 +30,7 @@ echo 'src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git' >> feed
 sed -i 's/# CONFIG_NF_SOCKET_IPV4 is not set/CONFIG_NF_SOCKET_IPV4=m/' target/linux/generic/config-5.4
 sed -i 's/# CONFIG_NF_SOCKET_IPV6 is not set/CONFIG_NF_SOCKET_IPV6=m/' target/linux/generic/config-5.4
 sed -i 's/# CONFIG_NFT_SOCKET is not set/CONFIG_NFT_SOCKET=m/' target/linux/generic/config-5.4
+
+# tailscale
+git clone https://github.com/GuNanOvO/openwrt-tailscale package/openwrt-tailscale
+git clone https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/luci-app-tailscale-community
