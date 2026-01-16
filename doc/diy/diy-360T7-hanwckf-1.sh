@@ -20,17 +20,20 @@
 # 添加第三方软件包
 #git clone https://github.com/kenzok8/openwrt-packages.git package/openwrt-packages
 #git clone https://github.com/kenzok8/small-package package/small-package
-git clone https://github.com/Zxilly/UA2F package/UA2F
+[ -d package/UA2F ] || git clone --depth 1 https://github.com/Zxilly/UA2F package/UA2F
 
-# 添加 nikki feeds
-echo 'src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git' >> feeds.conf.default
+# nikki feed
+grep -q 'nikki' feeds.conf.default || echo 'src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git' >> feeds.conf.default
 
 # 启用 kmod-nft-socket 和 kmod-nf-socket 所需的内核配置
-# 这些模块是 nikki 的依赖项
-sed -i 's/# CONFIG_NF_SOCKET_IPV4 is not set/CONFIG_NF_SOCKET_IPV4=m/' target/linux/generic/config-5.4
-sed -i 's/# CONFIG_NF_SOCKET_IPV6 is not set/CONFIG_NF_SOCKET_IPV6=m/' target/linux/generic/config-5.4
-sed -i 's/# CONFIG_NFT_SOCKET is not set/CONFIG_NFT_SOCKET=m/' target/linux/generic/config-5.4
+grep -q 'CONFIG_NF_SOCKET_IPV4=m' target/linux/generic/config-5.4 || \
+    sed -i 's/# CONFIG_NF_SOCKET_IPV4 is not set/CONFIG_NF_SOCKET_IPV4=m/' target/linux/generic/config-5.4
+grep -q 'CONFIG_NF_SOCKET_IPV6=m' target/linux/generic/config-5.4 || \
+    sed -i 's/# CONFIG_NF_SOCKET_IPV6 is not set/CONFIG_NF_SOCKET_IPV6=m/' target/linux/generic/config-5.4
+grep -q 'CONFIG_NFT_SOCKET=m' target/linux/generic/config-5.4 || \
+    sed -i 's/# CONFIG_NFT_SOCKET is not set/CONFIG_NFT_SOCKET=m/' target/linux/generic/config-5.4
 
-# tailscale
-git clone https://github.com/GuNanOvO/openwrt-tailscale package/openwrt-tailscale
-git clone https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/luci-app-tailscale-community
+# tailscale (每次拉取最新版本)
+rm -rf package/openwrt-tailscale package/luci-app-tailscale-community
+git clone --depth 1 https://github.com/GuNanOvO/openwrt-tailscale package/openwrt-tailscale
+git clone --depth 1 https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/luci-app-tailscale-community
