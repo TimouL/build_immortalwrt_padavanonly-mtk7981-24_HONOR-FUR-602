@@ -79,7 +79,7 @@ jobs:
          mixkey: '360T7-padavanonly'
          toolchain: 'true'
          skip: 'true'
-         clean: ${{github.event.inputs.clean}}
+         clean: ${{ github.event.inputs.clean || 'false' }}
          prefix: ${{ github.workspace }}/openwrt
            
     - name: Load custom feeds
