@@ -37,3 +37,7 @@ grep -q 'CONFIG_NFT_SOCKET=m' target/linux/generic/config-5.4 || \
 rm -rf package/openwrt-tailscale package/luci-app-tailscale-community
 git clone --depth 1 https://github.com/GuNanOvO/openwrt-tailscale package/openwrt-tailscale
 git clone --depth 1 https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/luci-app-tailscale-community
+
+# 升级 golang 到 1.24 (tailscale 1.94+ 需要)
+rm -rf feeds/packages/lang/golang
+git clone --depth 1 -b 24.x https://github.com/sbwml/packages_lang_golang feeds/packages/lang/golang
