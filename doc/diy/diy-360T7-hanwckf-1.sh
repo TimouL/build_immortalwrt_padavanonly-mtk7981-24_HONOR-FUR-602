@@ -26,12 +26,12 @@
 grep -q 'nikki' feeds.conf.default || echo 'src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git' >> feeds.conf.default
 
 # 启用 kmod-nft-socket 和 kmod-nf-socket 所需的内核配置
-grep -q 'CONFIG_NF_SOCKET_IPV4=m' target/linux/generic/config-5.4 || \
-    sed -i 's/# CONFIG_NF_SOCKET_IPV4 is not set/CONFIG_NF_SOCKET_IPV4=m/' target/linux/generic/config-5.4
-grep -q 'CONFIG_NF_SOCKET_IPV6=m' target/linux/generic/config-5.4 || \
-    sed -i 's/# CONFIG_NF_SOCKET_IPV6 is not set/CONFIG_NF_SOCKET_IPV6=m/' target/linux/generic/config-5.4
-grep -q 'CONFIG_NFT_SOCKET=m' target/linux/generic/config-5.4 || \
-    sed -i 's/# CONFIG_NFT_SOCKET is not set/CONFIG_NFT_SOCKET=m/' target/linux/generic/config-5.4
+grep -q 'CONFIG_NF_SOCKET_IPV4=m' target/linux/generic/config-6.6 || \
+    sed -i 's/# CONFIG_NF_SOCKET_IPV4 is not set/CONFIG_NF_SOCKET_IPV4=m/' target/linux/generic/config-6.6
+grep -q 'CONFIG_NF_SOCKET_IPV6=m' target/linux/generic/config-6.6 || \
+    sed -i 's/# CONFIG_NF_SOCKET_IPV6 is not set/CONFIG_NF_SOCKET_IPV6=m/' target/linux/generic/config-6.6
+grep -q 'CONFIG_NFT_SOCKET=m' target/linux/generic/config-6.6 || \
+    sed -i 's/# CONFIG_NFT_SOCKET is not set/CONFIG_NFT_SOCKET=m/' target/linux/generic/config-6.6
 
 # tailscale (每次拉取最新版本)
 rm -rf package/openwrt-tailscale package/luci-app-tailscale-community
