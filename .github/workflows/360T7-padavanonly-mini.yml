@@ -130,8 +130,8 @@ jobs:
          cd openwrt
          echo -e "$(nproc) thread compile"
          make -j$(nproc) || make -j1 V=s
-         echo "release_tag=${DEVICE}-$(date +%Y.%m.%d)-${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
-         echo "release_name=${DEVICE}-OpenWrt" >> $GITHUB_ENV
+         echo "release_tag=${DEVICE}-k5.4-$(date +%Y.%m.%d)-${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+         echo "release_name=${DEVICE}-OpenWrt-5.4" >> $GITHUB_ENV
          echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Check space usage
@@ -168,9 +168,10 @@ jobs:
          name: ${{ env.release_name }}
          tag_name: ${{ env.release_tag }}
          body: |
-             Gateway：192.168.50.1
-             Password：password
-             Application：nikki, tailscale, ttyd, ua2f
+             **Kernel**: 5.4
+             **Gateway**: 192.168.50.1
+             **Password**: password
+             **Application**: nikki, tailscale, ttyd, ua2f
          files: ${{ env.FIRMWARE }}/*
 
     - name: Delete older releases
