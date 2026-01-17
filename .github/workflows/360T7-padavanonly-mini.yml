@@ -109,11 +109,11 @@ jobs:
          chmod +x $DIY_P2_SH
          cd openwrt
          $GITHUB_WORKSPACE/$DIY_P2_SH
-         if [ "$DEVICE" != "ALL" ]; then
-           sed -i '/^CONFIG_TARGET_DEVICE_mediatek_mt7981_DEVICE_/d' .config
-           sed -i '/^CONFIG_TARGET_DEVICE_PACKAGES_mediatek_mt7981_DEVICE_/d' .config
-           echo "CONFIG_TARGET_DEVICE_mediatek_mt7981_DEVICE_${DEVICE}=y" >> .config
-         fi
+          if [ "$DEVICE" != "ALL" ]; then
+            sed -i '/^CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_/d' .config
+            sed -i '/^CONFIG_TARGET_DEVICE_PACKAGES_mediatek_filogic_DEVICE_/d' .config
+            echo "CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_${DEVICE}=y" >> .config
+          fi
         
     - name: Download package
       id: package
@@ -149,8 +149,8 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-         tar -cvf openwrt/bin/targets/mediatek/mt7981/packages.tar openwrt/bin/packages
-         cd openwrt/bin/targets/mediatek/mt7981
+         tar -cvf openwrt/bin/targets/mediatek/filogic/packages.tar openwrt/bin/packages
+         cd openwrt/bin/targets/mediatek/filogic
          rm -rf packages
          rm -rf feeds.buildinfo
          rm -rf sha256sums
