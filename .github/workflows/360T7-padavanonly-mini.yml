@@ -171,7 +171,7 @@ jobs:
              **Kernel**: 5.4
              **Gateway**: 192.168.50.1
              **Password**: password
-             **Application**: nikki, tailscale, ttyd, ua2f
+             **Application**: homeproxy, tailscale, ttyd, ua2f
          files: ${{ env.FIRMWARE }}/*
 
     - name: Delete older releases
