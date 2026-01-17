@@ -37,3 +37,7 @@ grep -q 'CONFIG_NFT_SOCKET=m' target/linux/generic/config-5.4 || \
 rm -rf package/openwrt-tailscale package/luci-app-tailscale-community
 git clone --depth 1 https://github.com/GuNanOvO/openwrt-tailscale package/openwrt-tailscale
 git clone --depth 1 https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/luci-app-tailscale-community
+
+# 安装 UPX 压缩工具（tailscale 编译需要）
+mkdir -p upx
+curl -sL https://github.com/upx/upx/releases/download/v4.2.4/upx-4.2.4-amd64_linux.tar.xz | tar -xJf - --strip-components=1 -C upx
