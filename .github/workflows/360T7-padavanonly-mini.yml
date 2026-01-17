@@ -76,7 +76,7 @@ jobs:
       uses: klever1988/cachewrtbuild@main
       with:
          ccache: 'true'
-         mixkey: '360T7-padavanonly'
+         mixkey: '360T7-padavanonly-6.6'
          toolchain: 'true'
          skip: 'true'
          clean: ${{ github.event.inputs.clean || 'false' }}
