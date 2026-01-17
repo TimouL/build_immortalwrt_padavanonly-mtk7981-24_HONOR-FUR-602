@@ -38,6 +38,9 @@ rm -rf package/openwrt-tailscale package/luci-app-tailscale-community
 git clone --depth 1 https://github.com/GuNanOvO/openwrt-tailscale package/openwrt-tailscale
 git clone --depth 1 https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/luci-app-tailscale-community
 
-# 安装 UPX 压缩工具（tailscale 编译需要）
+# 安装 UPX 压缩工具（tailscale 编译需要，路径必须为 $TOPDIR/upx/upx）
 mkdir -p upx
-curl -sL https://github.com/upx/upx/releases/download/v4.2.4/upx-4.2.4-amd64_linux.tar.xz | tar -xJf - --strip-components=1 -C upx
+curl -fsSL --retry 3 --retry-delay 5 \
+  https://github.com/upx/upx/releases/download/v4.2.4/upx-4.2.4-amd64_linux.tar.xz \
+  | tar -xJf - --strip-components=1 -C upx
+chmod +x upx/upx
